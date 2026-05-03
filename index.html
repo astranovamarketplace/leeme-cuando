@@ -1,323 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#ffffff" />
-  <meta name="description" content="Versículos bíblicos para cada emoción. Léeme cuando te sientas..." />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Léeme Cuando" />
-  <title>Léeme Cuando Te Sientas</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="theme-color" content="#ffffff"/>
+  <meta name="description" content="Versículos bíblicos para cada emoción."/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="Léeme Cuando"/>
+  <title>Aquí siempre hay una palabra para ti</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:#fff;color:#111;min-height:100vh;max-width:480px;margin:0 auto;overflow-x:hidden;}
+    .screen{display:none;flex-direction:column;min-height:100vh;}
+    .screen.active{display:flex;}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #fff;
-      color: #111;
-      min-height: 100vh;
-      max-width: 480px;
-      margin: 0 auto;
-      overflow-x: hidden;
-    }
+    /* WELCOME */
+    #welcome-screen{align-items:center;justify-content:center;padding:3rem 2rem;text-align:center;position:relative;}
+    .rainbow-bar{height:5px;background:linear-gradient(90deg,#D62828,#E07B39,#C9B800,#2A9D4E,#1565C0,#6A0DAD);position:absolute;top:0;left:0;right:0;}
+    .welcome-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#111;line-height:1.25;margin-bottom:0.65rem;}
+    .welcome-sub{font-size:13px;color:#888;font-weight:300;line-height:1.6;margin-bottom:2rem;}
+    .divider{width:40px;height:2px;background:linear-gradient(90deg,#D62828,#6A0DAD);border-radius:2px;margin:0 auto 2rem;}
+    .welcome-ask{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#bbb;font-weight:500;margin-bottom:0.65rem;}
+    .name-input{width:100%;padding:0.85rem 1rem;border:1.5px solid #ddd;border-radius:12px;font-size:16px;font-family:'Inter',sans-serif;color:#111;outline:none;text-align:center;transition:border-color 0.2s;margin-bottom:1rem;-webkit-appearance:none;}
+    .name-input:focus{border-color:#111;}
+    .name-input::placeholder{color:#ccc;}
+    .primary-btn{width:100%;padding:0.95rem;border:none;border-radius:12px;background:#111;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity 0.15s;letter-spacing:0.3px;}
+    .primary-btn:active{opacity:0.8;}
 
-    .screen { display: none; flex-direction: column; min-height: 100vh; }
-    .screen.active { display: flex; }
+    /* RETURNING */
+    #returning-screen{align-items:center;justify-content:center;padding:3rem 2rem;text-align:center;position:relative;}
+    .returning-greeting{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;font-weight:500;margin-bottom:8px;}
+    .returning-name{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#111;margin-bottom:0.75rem;}
+    .returning-sub{font-size:13px;color:#888;font-weight:300;margin-bottom:2rem;line-height:1.6;}
 
-    /* ── HOME ── */
-    .rainbow-bar {
-      height: 5px;
-      background: linear-gradient(90deg, #D62828, #E07B39, #C9B800, #2A9D4E, #1565C0, #6A0DAD);
-      width: 100%;
-      flex-shrink: 0;
-    }
+    /* HOME */
+    #home-screen{background:#fff;}
+    .home-rainbow{height:5px;background:linear-gradient(90deg,#D62828,#E07B39,#C9B800,#2A9D4E,#1565C0,#6A0DAD);}
+    .votd-block{padding:1.5rem 1.25rem 1.25rem;text-align:center;border-bottom:1px solid #f0f0f0;}
+    .votd-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;font-weight:500;margin-bottom:10px;}
+    .votd-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;line-height:1.65;color:#111;margin-bottom:8px;}
+    .votd-ref{font-size:11px;color:#aaa;}
+    .leeme-block{padding:1.25rem 1.25rem 0.5rem;text-align:center;}
+    .home-greeting{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#111;margin-bottom:3px;}
+    .home-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#111;line-height:1.25;}
+    .section-label{font-size:9px;letter-spacing:2.5px;color:#999;text-transform:uppercase;font-weight:500;padding:0.75rem 1.25rem 0.6rem;text-align:center;}
+    .feelings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 1.25rem 2rem;}
+    .feeling-btn{border:1.5px solid #eee;background:#fff;border-radius:12px;padding:1rem 0.75rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;transition:all 0.15s;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;}
+    .feeling-btn::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+    .feeling-btn.feliz::after{background:#E8B800;}
+    .feeling-btn.triste::after{background:#2979C8;}
+    .feeling-btn.ansioso::after{background:#9C2BD4;}
+    .feeling-btn.solo::after{background:#1A8A5C;}
+    .feeling-btn.enojado::after{background:#CC2200;}
+    .feeling-btn.agradecido::after{background:#2A9D4E;}
+    .feeling-btn.asustado::after{background:#D06000;}
+    .feeling-btn.confundido::after{background:#555;}
+    .feeling-btn:active{transform:scale(0.97);background:#fafafa;}
+    .feeling-emoji{font-size:26px;}
+    .feeling-name{font-size:13px;font-weight:500;color:#111;}
+    .feeling-desc{font-size:10px;color:#aaa;font-weight:300;}
 
-    .votd-block {
-      padding: 1.75rem 1.5rem 1.5rem;
-      text-align: center;
-      border-bottom: 1px solid #f0f0f0;
-    }
+    /* VERSE */
+    #verse-screen{position:relative;}
+    .color-accent-bar{position:absolute;top:0;left:0;right:0;height:4px;z-index:2;}
+    .verse-header{display:flex;align-items:center;padding:1.1rem 1.25rem;border-bottom:1px solid #eee;gap:10px;margin-top:4px;}
+    .back-btn{background:none;border:none;font-size:13px;cursor:pointer;color:#888;padding:4px;font-weight:500;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;}
+    .verse-feeling-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#999;font-weight:500;flex:1;text-align:center;}
+    .header-spacer{width:52px;}
+    .verse-body{flex:1;padding:2rem 1.5rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.1rem;text-align:center;}
+    .verse-emoji-big{font-size:48px;}
+    .verse-accent-line{height:3px;width:40px;border-radius:2px;}
+    .verse-text{font-family:'Playfair Display',serif;font-size:21px;font-style:italic;line-height:1.7;color:#111;}
+    .verse-ref{font-size:11px;color:#999;letter-spacing:1px;font-weight:500;text-transform:uppercase;}
+    .prayer-section{border-top:1px solid #f0f0f0;padding-top:1rem;width:100%;}
+    .prayer-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#bbb;font-weight:500;margin-bottom:7px;text-align:center;}
+    .prayer-text{font-size:13px;line-height:1.7;color:#555;font-weight:300;text-align:center;}
+    .verse-actions{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:auto;padding-top:0.5rem;}
+    .outline-btn{width:100%;padding:0.9rem;border:1.5px solid #111;border-radius:10px;background:#fff;color:#111;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;transition:background 0.15s;}
+    .outline-btn:active{background:#f5f5f5;}
 
-    .votd-tag {
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #999;
-      font-weight: 500;
-      margin-bottom: 12px;
-    }
-
-    .votd-quote {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 18px;
-      line-height: 1.65;
-      color: #111;
-      margin-bottom: 10px;
-    }
-
-    .votd-ref {
-      font-size: 11px;
-      color: #aaa;
-      letter-spacing: 0.5px;
-    }
-
-    .leeme-block {
-      padding: 1.5rem 1.5rem 0.75rem;
-      text-align: center;
-    }
-
-    .home-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: #111;
-      line-height: 1.25;
-    }
-
-    .section-label {
-      font-size: 9px;
-      letter-spacing: 2.5px;
-      color: #999;
-      text-transform: uppercase;
-      font-weight: 500;
-      padding: 0.5rem 1.25rem 0.75rem;
-      text-align: center;
-    }
-
-    .feelings-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      padding: 0 1.25rem 2rem;
-    }
-
-    .feeling-btn {
-      border: 1.5px solid #eee;
-      background: #fff;
-      border-radius: 14px;
-      padding: 1.1rem 0.75rem;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 7px;
-      text-align: center;
-      transition: all 0.15s;
-      position: relative;
-      overflow: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .feeling-btn::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3px;
-    }
-
-    .feeling-btn.feliz::after     { background: #E8B800; }
-    .feeling-btn.triste::after    { background: #2979C8; }
-    .feeling-btn.ansioso::after   { background: #9C2BD4; }
-    .feeling-btn.solo::after      { background: #1A8A5C; }
-    .feeling-btn.enojado::after   { background: #CC2200; }
-    .feeling-btn.agradecido::after{ background: #2A9D4E; }
-    .feeling-btn.asustado::after  { background: #D06000; }
-    .feeling-btn.confundido::after{ background: #555555; }
-
-    .feeling-btn:active { transform: scale(0.97); background: #fafafa; }
-
-    .feeling-emoji { font-size: 28px; }
-    .feeling-name  { font-size: 14px; font-weight: 500; color: #111; }
-    .feeling-desc  { font-size: 10px; color: #aaa; font-weight: 300; }
-
-    /* ── VERSE SCREEN ── */
-    #verse-screen { position: relative; }
-
-    .color-accent-bar {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      z-index: 2;
-      transition: background 0.3s;
-    }
-
-    .verse-header {
-      display: flex;
-      align-items: center;
-      padding: 1.1rem 1.25rem;
-      border-bottom: 1px solid #eee;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .back-btn {
-      background: none;
-      border: none;
-      font-size: 13px;
-      cursor: pointer;
-      color: #888;
-      padding: 4px 8px 4px 0;
-      font-weight: 500;
-      font-family: 'Inter', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .verse-feeling-label {
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #999;
-      font-weight: 500;
-      flex: 1;
-      text-align: center;
-    }
-
-    .header-spacer { width: 52px; }
-
-    .verse-body {
-      flex: 1;
-      padding: 2rem 1.5rem 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
-      text-align: center;
-    }
-
-    .verse-emoji-big { font-size: 48px; }
-
-    .verse-accent-line {
-      height: 3px;
-      width: 40px;
-      border-radius: 2px;
-      transition: background 0.3s;
-    }
-
-    .verse-text {
-      font-family: 'Playfair Display', serif;
-      font-size: 21px;
-      font-style: italic;
-      line-height: 1.7;
-      color: #111;
-    }
-
-    .verse-ref {
-      font-size: 11px;
-      color: #999;
-      letter-spacing: 1px;
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-
-    .prayer-section {
-      border-top: 1px solid #f0f0f0;
-      padding-top: 1.25rem;
-      width: 100%;
-    }
-
-    .prayer-label {
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #bbb;
-      font-weight: 500;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .prayer-text {
-      font-size: 14px;
-      line-height: 1.75;
-      color: #555;
-      font-weight: 300;
-      text-align: center;
-    }
-
-    .verse-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 100%;
-      margin-top: auto;
-      padding-top: 0.5rem;
-    }
-
-    .otro-btn {
-      width: 100%;
-      padding: 0.95rem;
-      border: 1.5px solid #111;
-      border-radius: 12px;
-      background: #fff;
-      color: #111;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      transition: background 0.15s;
-    }
-
-    .otro-btn:active { background: #f5f5f5; }
-
-    .back-home-btn {
-      width: 100%;
-      padding: 0.95rem;
-      border: none;
-      border-radius: 12px;
-      background: #111;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      transition: opacity 0.15s;
-    }
-
-    .back-home-btn:active { opacity: 0.8; }
-
-    /* Desktop centering */
-    @media (min-width: 480px) {
-      body {
-        box-shadow: 0 0 40px rgba(0,0,0,0.08);
-        min-height: 100vh;
-      }
-    }
+    @media(min-width:480px){body{box-shadow:0 0 40px rgba(0,0,0,0.08);}}
   </style>
 </head>
 <body>
 
-<!-- HOME -->
-<div id="home-screen" class="screen active">
+<!-- WELCOME: primera vez -->
+<div id="welcome-screen" class="screen">
   <div class="rainbow-bar"></div>
+  <div class="welcome-title">Aquí siempre hay<br>una palabra para ti</div>
+  <div class="welcome-sub">Dios tiene una palabra<br>para lo que sientes</div>
+  <div class="divider"></div>
+  <div class="welcome-ask">¿Cómo te llamas?</div>
+  <input class="name-input" id="name-input" type="text" placeholder="Escribe tu nombre" maxlength="30"/>
+  <button class="primary-btn" onclick="saveName()">Entrar →</button>
+</div>
 
+<!-- RETURNING: visitas siguientes -->
+<div id="returning-screen" class="screen">
+  <div class="rainbow-bar"></div>
+  <div class="returning-greeting">Bienvenido/a de nuevo</div>
+  <div class="returning-name" id="returning-name"></div>
+  <div class="returning-sub">Dios tiene una palabra<br>para lo que sientes hoy</div>
+  <div class="divider"></div>
+  <button class="primary-btn" onclick="goHome()">Ver versículos →</button>
+</div>
+
+<!-- HOME -->
+<div id="home-screen" class="screen">
+  <div class="home-rainbow"></div>
   <div class="votd-block">
     <div class="votd-tag">Versículo del día</div>
     <div class="votd-quote" id="votd-text"></div>
     <div class="votd-ref" id="votd-ref"></div>
   </div>
-
   <div class="leeme-block">
-    <div class="home-title">Léeme cuando<br>te sientas…</div>
+    <div class="home-greeting" id="home-greeting"></div>
+    <div class="home-question">¿Cómo te sientes hoy?</div>
   </div>
-
   <div class="section-label">¿Cómo estás hoy?</div>
-
   <div class="feelings-grid">
-    <button class="feeling-btn feliz"      onclick="openFeeling('feliz')">      <span class="feeling-emoji">☀️</span> <span class="feeling-name">Feliz</span>        <span class="feeling-desc">Gratitud y gozo</span>        </button>
-    <button class="feeling-btn triste"     onclick="openFeeling('triste')">     <span class="feeling-emoji">🌧️</span><span class="feeling-name">Triste</span>       <span class="feeling-desc">Consuelo y esperanza</span>  </button>
-    <button class="feeling-btn ansioso"    onclick="openFeeling('ansioso')">    <span class="feeling-emoji">🌀</span> <span class="feeling-name">Ansioso/a</span>    <span class="feeling-desc">Paz interior</span>           </button>
-    <button class="feeling-btn solo"       onclick="openFeeling('solo')">       <span class="feeling-emoji">🌙</span> <span class="feeling-name">Solo/a</span>        <span class="feeling-desc">Presencia y compañía</span>  </button>
-    <button class="feeling-btn enojado"    onclick="openFeeling('enojado')">    <span class="feeling-emoji">🔥</span> <span class="feeling-name">Enojado/a</span>    <span class="feeling-desc">Calma y perdón</span>         </button>
-    <button class="feeling-btn agradecido" onclick="openFeeling('agradecido')"> <span class="feeling-emoji">🌿</span> <span class="feeling-name">Agradecido/a</span> <span class="feeling-desc">Alabanza y plenitud</span>   </button>
-    <button class="feeling-btn asustado"   onclick="openFeeling('asustado')">   <span class="feeling-emoji">⚡</span> <span class="feeling-name">Con miedo</span>     <span class="feeling-desc">Fortaleza y valor</span>      </button>
-    <button class="feeling-btn confundido" onclick="openFeeling('confundido')"> <span class="feeling-emoji">🌫️</span><span class="feeling-name">Confundido/a</span> <span class="feeling-desc">Dirección y sabiduría</span> </button>
+    <button class="feeling-btn feliz"      onclick="openFeeling('feliz')">      <span class="feeling-emoji">☀️</span><span class="feeling-name">Feliz</span>        <span class="feeling-desc">Gratitud y gozo</span></button>
+    <button class="feeling-btn triste"     onclick="openFeeling('triste')">     <span class="feeling-emoji">🌧️</span><span class="feeling-name">Triste</span>       <span class="feeling-desc">Consuelo y esperanza</span></button>
+    <button class="feeling-btn ansioso"    onclick="openFeeling('ansioso')">    <span class="feeling-emoji">🌀</span><span class="feeling-name">Ansioso/a</span>    <span class="feeling-desc">Paz interior</span></button>
+    <button class="feeling-btn solo"       onclick="openFeeling('solo')">       <span class="feeling-emoji">🌙</span><span class="feeling-name">Solo/a</span>        <span class="feeling-desc">Presencia y compañía</span></button>
+    <button class="feeling-btn enojado"    onclick="openFeeling('enojado')">    <span class="feeling-emoji">🔥</span><span class="feeling-name">Enojado/a</span>    <span class="feeling-desc">Calma y perdón</span></button>
+    <button class="feeling-btn agradecido" onclick="openFeeling('agradecido')"> <span class="feeling-emoji">🌿</span><span class="feeling-name">Agradecido/a</span> <span class="feeling-desc">Alabanza y plenitud</span></button>
+    <button class="feeling-btn asustado"   onclick="openFeeling('asustado')">   <span class="feeling-emoji">⚡</span><span class="feeling-name">Con miedo</span>     <span class="feeling-desc">Fortaleza y valor</span></button>
+    <button class="feeling-btn confundido" onclick="openFeeling('confundido')"> <span class="feeling-emoji">🌫️</span><span class="feeling-name">Confundido/a</span> <span class="feeling-desc">Dirección y sabiduría</span></button>
   </div>
 </div>
 
@@ -339,264 +153,82 @@
       <div class="prayer-text" id="prayer-text"></div>
     </div>
     <div class="verse-actions">
-      <button class="otro-btn" onclick="nextVerse()">Ver otro versículo</button>
-      <button class="back-home-btn" onclick="goBack()">← Volver al inicio</button>
+      <button class="outline-btn" onclick="nextVerse()">Ver otro versículo</button>
+      <button class="primary-btn" onclick="goBack()">← Volver al inicio</button>
     </div>
   </div>
 </div>
 
 <script>
-const verses = {
-  feliz: [
-    {ref:'Salmos 118:24',text:'Este es el día que hizo el Señor; regocijémonos y alegrémonos en él.',prayer:'Gracias, Señor, por este momento de alegría. Que mi corazón nunca olvide tu bondad.'},
-    {ref:'Filipenses 4:4',text:'Alégrense siempre en el Señor. Insisto: ¡Alégrense!',prayer:'Padre, que esta alegría sea un reflejo de tu amor obrando en mi vida.'},
-    {ref:'Salmos 37:4',text:'Deléitate en el Señor, y él te concederá los deseos de tu corazón.',prayer:'Que en mis momentos de gozo siempre te busque a ti primero.'},
-    {ref:'Nehemías 8:10',text:'No estén tristes, pues el gozo del Señor es su fuerza.',prayer:'Tu gozo, Señor, es mi fortaleza hoy y siempre.'},
-    {ref:'Salmos 16:11',text:'En tu presencia hay plenitud de gozo; delicias a tu diestra para siempre.',prayer:'Señor, que cada momento de alegría me recuerde que su fuente eres tú.'},
-    {ref:'Romanos 15:13',text:'Que el Dios de la esperanza los llene de toda alegría y paz a ustedes que creen en él.',prayer:'Llena mi corazón de tu alegría hoy, Señor.'},
-    {ref:'Salmos 28:7',text:'El Señor es mi fuerza y mi escudo; mi corazón en él confía, y recibo su ayuda. Mi corazón salta de alegría.',prayer:'Mi corazón salta de gozo porque tú eres fiel, Señor.'},
-    {ref:'Juan 15:11',text:'Les he dicho esto para que tengan mi alegría y así su alegría sea completa.',prayer:'Gracias, Jesús, porque tu alegría en mí es completa.'},
-    {ref:'Salmos 126:3',text:'El Señor ha hecho grandes cosas por nosotros, y eso nos llena de alegría.',prayer:'Recuérdame hoy todo lo grande que has hecho en mi vida, Padre.'},
-    {ref:'Isaías 61:10',text:'Me deleito mucho en el Señor; me regocijo en mi Dios.',prayer:'Hoy elijo regocijarme en ti, independientemente de lo que me rodee.'},
-    {ref:'Sofonías 3:17',text:'El Señor tu Dios está en medio de ti, guerrero victorioso. Se deleitará en ti con alegría.',prayer:'Gracias porque tú también te alegras por mí, Señor.'},
-    {ref:'1 Pedro 1:8',text:'A quien aman sin haberlo visto; en quien creen, aunque no lo ven ahora. Así se alegran con una alegría indescriptible y gloriosa.',prayer:'Que mi fe produzca una alegría que el mundo no pueda explicar.'},
-    {ref:'Salmos 9:2',text:'Me alegro en ti y me regocijo; canto salmos a tu nombre, oh Altísimo.',prayer:'Hoy mi alegría es un acto de adoración hacia ti.'},
-    {ref:'Proverbios 17:22',text:'Gran remedio es el corazón alegre, pero el ánimo decaído seca los huesos.',prayer:'Señor, que esta alegría sea medicina para mi cuerpo y mi alma.'},
-    {ref:'Habacuc 3:18',text:'Aun así, yo me regocijaré en el Señor, ¡me alegraré en Dios, mi libertador!',prayer:'Decido alegrarme en ti sin importar las circunstancias.'},
-    {ref:'Salmos 32:11',text:'Alégrense en el Señor y gócense, ustedes los justos; ¡canten todos los de recto corazón!',prayer:'Hoy mi corazón canta porque tú eres bueno.'},
-    {ref:'Romanos 12:12',text:'Alégrense en la esperanza, muestren paciencia en el sufrimiento, perseveren en la oración.',prayer:'Que mi alegría nazca de la esperanza que tengo en ti, Señor.'},
-    {ref:'Salmos 68:3',text:'Pero que los justos se alegren y se regocijen delante de Dios; que estén felices y alegres.',prayer:'Me pongo delante de ti hoy con un corazón contento y agradecido.'},
-    {ref:'Eclesiastés 9:7',text:'Anda, come tu pan con alegría y bebe tu vino con buen ánimo, que Dios ya se ha agradado de tus obras.',prayer:'Gracias porque puedo disfrutar la vida que me has dado con plena libertad.'},
-    {ref:'Salmos 63:7',text:'Porque fuiste mi ayuda, y a la sombra de tus alas me regocijo.',prayer:'Bajo tu sombra encuentro seguridad y alegría verdadera, Señor.'},
-  ],
-  triste: [
-    {ref:'Salmos 34:18',text:'El Señor está cerca de los quebrantados de corazón, y salva a los de espíritu abatido.',prayer:'Señor, siento tu cercanía aunque no pueda verla. Sana lo que duele en mí.'},
-    {ref:'Mateo 5:4',text:'Dichosos los que lloran, porque ellos serán consolados.',prayer:'Padre, recibe mis lágrimas como oración. Tú eres mi refugio y mi fuerza.'},
-    {ref:'Salmos 30:5',text:'El llanto puede durar toda la noche, pero a la mañana vendrá la alegría.',prayer:'Ayúdame a creer que después de esta noche, llega tu luz.'},
-    {ref:'2 Corintios 1:3-4',text:'Dios, Padre de misericordias y Dios de toda consolación, nos consuela en todas nuestras tribulaciones.',prayer:'Recibo hoy tu consuelo, Padre. Que pueda darlo también a otros.'},
-    {ref:'Isaías 53:4',text:'Ciertamente él cargó con nuestras enfermedades y soportó nuestros dolores.',prayer:'Jesús, tú conoces este peso. Cárgalo conmigo, por favor.'},
-    {ref:'Salmos 147:3',text:'Restaura a los abatidos de corazón y cubre con vendas sus heridas.',prayer:'Señor, ven a restaurar lo que está roto dentro de mí hoy.'},
-    {ref:'Juan 14:1',text:'No se angustien. Confíen en Dios y confíen también en mí.',prayer:'Hoy elijo confiar aunque no entiendo. Tú eres suficiente para este dolor.'},
-    {ref:'Romanos 8:28',text:'Sabemos que Dios dispone todas las cosas para el bien de quienes lo aman.',prayer:'Ayúdame a creer que incluso este momento doloroso tiene un propósito en tus manos.'},
-    {ref:'Salmos 56:8',text:'Tú has llevado cuenta de mis lamentos; registra mi llanto en tu libro.',prayer:'Gracias porque ninguna lágrima mía pasa desapercibida ante ti.'},
-    {ref:'Apocalipsis 21:4',text:'Enjugará toda lágrima de sus ojos, y ya no habrá muerte, ni llanto, ni lamento ni dolor.',prayer:'Señor, que esta promesa sea mi ancla en los momentos de tristeza más profunda.'},
-    {ref:'Isaías 43:2',text:'Cuando cruces las aguas, yo estaré contigo; cuando cruces los ríos, no te cubrirán sus aguas.',prayer:'Aunque siento que me ahogo, tú estás aquí. No me soltarás.'},
-    {ref:'Salmos 23:4',text:'Aun si voy por valles tenebrosos, no temo peligro alguno porque tú estás a mi lado.',prayer:'Este valle es oscuro, Señor, pero tu presencia lo ilumina todo.'},
-    {ref:'2 Corintios 4:17',text:'Los sufrimientos ligeros y efímeros que ahora padecemos producen una gloria eterna que vale muchísimo más.',prayer:'Dame perspectiva eterna cuando el dolor de hoy se sienta demasiado grande.'},
-    {ref:'Salmos 73:26',text:'Podrán desfallecer mi cuerpo y mi espíritu, pero Dios fortalece mi corazón; él es mi herencia eterna.',prayer:'Cuando ya no me queden fuerzas, tú sigues siendo mi fortaleza.'},
-    {ref:'1 Pedro 5:10',text:'El Dios de toda gracia, después de que ustedes hayan sufrido un poco de tiempo, los restaurará y los hará fuertes.',prayer:'Gracias porque esta tristeza no es el final de mi historia.'},
-    {ref:'Jeremías 31:13',text:'Convertiré su duelo en gozo, y los consolaré; transformaré su dolor en alegría.',prayer:'Creo que tú puedes convertir este dolor en algo hermoso, Señor.'},
-    {ref:'Salmos 9:9',text:'El Señor es refugio de los oprimidos; es su baluarte en momentos de angustia.',prayer:'Vengo a ti como mi refugio seguro. Aquí estoy, Señor.'},
-    {ref:'Mateo 11:28',text:'Vengan a mí todos ustedes que están cansados y agobiados, y yo les daré descanso.',prayer:'Vengo a ti cansado/a, Jesús. Dame el descanso que solo tú puedes dar.'},
-    {ref:'Isaías 40:31',text:'Los que confían en el Señor renovarán sus fuerzas; volarán como las águilas.',prayer:'Renueva mis fuerzas, Señor. Hoy decido confiar en ti.'},
-    {ref:'Salmos 34:19',text:'Muchas son las angustias del justo, pero el Señor lo librará de todas ellas.',prayer:'Gracias porque cada una de mis angustias tiene fecha de vencimiento en tus manos.'},
-  ],
-  ansioso: [
-    {ref:'Filipenses 4:6-7',text:'No se inquieten por nada; más bien, en toda ocasión, presenten sus peticiones a Dios.',prayer:'Señor, te entrego mis preocupaciones. Tu paz sobrepasa todo entendimiento.'},
-    {ref:'Mateo 6:34',text:'No se preocupen por el mañana, porque el día de mañana traerá sus propias preocupaciones.',prayer:'Ayúdame a vivir este momento contigo, sin cargar con lo que aún no ha llegado.'},
-    {ref:'1 Pedro 5:7',text:'Depositen en él toda ansiedad, porque él cuida de ustedes.',prayer:'Abro mis manos y suelto todo aquello que me tiene agitado. Cuídame, Señor.'},
-    {ref:'Juan 14:27',text:'La paz les dejo; mi paz les doy. No se la doy como la da el mundo.',prayer:'Necesito esa paz que solo tú das. Entra a mi mente y calma la tormenta.'},
-    {ref:'Isaías 26:3',text:'Al de firme propósito lo guardarás en perfecta paz, porque en ti confía.',prayer:'Decido hoy mantener mi mente en ti. Tú eres mi ancla.'},
-    {ref:'Salmos 46:10',text:'Quédense quietos, reconozcan que yo soy Dios.',prayer:'Señor, ayúdame a hacer silencio y recordar que tú tienes el control.'},
-    {ref:'Mateo 6:26',text:'Miren las aves del cielo: no siembran ni cosechan; sin embargo, el Padre celestial las alimenta.',prayer:'Si cuidas de las aves, cuánto más me cuidas a mí. Gracias, Padre.'},
-    {ref:'2 Timoteo 1:7',text:'Pues Dios no nos ha dado un espíritu de timidez, sino de poder, de amor y de dominio propio.',prayer:'Rechazo el espíritu de ansiedad. Recibo tu espíritu de poder y dominio propio.'},
-    {ref:'Salmos 55:22',text:'Encomienda al Señor tus afanes, y él te sostendrá; no permitirá que el justo caiga.',prayer:'Hoy encomienzo mis cargas a ti, Señor. Tú me sostienes.'},
-    {ref:'Proverbios 12:25',text:'La angustia deprime al hombre, pero la buena palabra lo anima.',prayer:'Gracias porque tu Palabra es la buena palabra que mi corazón necesita hoy.'},
-    {ref:'Romanos 8:38-39',text:'Nada nos podrá separar del amor que Dios nos ha manifestado en Cristo Jesús.',prayer:'Aunque todo parezca incierto, tu amor por mí nunca cambia. Eso me calma.'},
-    {ref:'Isaías 41:13',text:'Yo soy el Señor tu Dios, que te sostengo de la mano derecha y te digo: No temas, yo te ayudaré.',prayer:'Siento tu mano sosteniéndome hoy, Señor. No estoy solo/a en esto.'},
-    {ref:'Salmos 94:19',text:'Cuando en mí la angustia iba en aumento, tu consuelo llenaba mi alma de alegría.',prayer:'Que tu consuelo llegue a los rincones más ansiosos de mi corazón.'},
-    {ref:'Juan 16:33',text:'En este mundo afrontarán aflicciones, pero ¡anímense! Yo he vencido al mundo.',prayer:'Jesús, tú ya venciste. Eso significa que en ti, yo también venzo esta ansiedad.'},
-    {ref:'Salmos 27:1',text:'El Señor es mi luz y mi salvación; ¿a quién temeré? El Señor es el baluarte de mi vida.',prayer:'Tú eres más grande que cualquier cosa que me cause temor hoy.'},
-    {ref:'Isaías 35:4',text:'Digan a los de corazón temeroso: Sean fuertes y no teman.',prayer:'Recibo esta palabra hoy. Soy fuerte en ti aunque no lo sienta.'},
-    {ref:'Proverbios 3:24',text:'Cuando te acuestes, no tendrás temor alguno; cuando te acuestes, tu sueño será agradable.',prayer:'Señor, que pueda descansar esta noche sabiendo que tú velas por mí.'},
-    {ref:'Romanos 15:13',text:'Que el Dios de la esperanza los llene de toda alegría y paz a ustedes que creen en él.',prayer:'Lléname de tu paz hoy, Señor. Que sobrepase todo lo que entiendo.'},
-    {ref:'Salmos 29:11',text:'El Señor fortalece a su pueblo; el Señor bendice a su pueblo con la paz.',prayer:'Reclamo hoy la paz que prometes para tu pueblo. Esa paz es para mí.'},
-    {ref:'Lucas 12:25',text:'¿Quién de ustedes, por mucho que se preocupe, puede añadir una sola hora al curso de su vida?',prayer:'Recuérdame que la ansiedad no cambia nada, pero la oración sí.'},
-  ],
-  solo: [
-    {ref:'Deuteronomio 31:6',text:'No tengas miedo ni te desanimes, porque el Señor tu Dios te acompañará dondequiera que vayas.',prayer:'Señor, en mi soledad recuérdame que nunca estoy realmente solo/a.'},
-    {ref:'Salmos 23:4',text:'Aun si voy por valles tenebrosos, no temo peligro alguno porque tú estás a mi lado.',prayer:'Padre, sé mi compañía en este silencio. Tu presencia es suficiente.'},
-    {ref:'Isaías 41:10',text:'No temas, porque yo estoy contigo; no te angusties, porque yo soy tu Dios.',prayer:'En este momento de soledad, ayúdame a sentir que tú me abrazas.'},
-    {ref:'Hebreos 13:5',text:'Nunca te dejaré; jamás te abandonaré.',prayer:'Señor, aférrame a esta promesa cuando el silencio pesa demasiado.'},
-    {ref:'Salmos 139:7-8',text:'¿A dónde podría alejarme de tu Espíritu? ¿A dónde podría huir de tu presencia?',prayer:'Gracias porque no existe lugar donde no estés. No estoy solo/a.'},
-    {ref:'Mateo 28:20',text:'Les aseguro que estaré con ustedes siempre, hasta el fin del mundo.',prayer:'Jesús, tu promesa de estar conmigo siempre incluye este momento.'},
-    {ref:'Juan 14:18',text:'No los voy a dejar huérfanos; volveré a ustedes.',prayer:'Gracias porque nunca me abandonas. Tu presencia es real aunque no la vea.'},
-    {ref:'Isaías 54:10',text:'Aunque cambien de lugar las montañas y se tambaleen las colinas, no cambiará mi fiel amor por ti.',prayer:'Tu amor por mí no depende de si estoy rodeado de gente. Siempre estás aquí.'},
-    {ref:'Salmos 27:10',text:'Aunque mi padre y mi madre me abandonen, el Señor me recibirá en sus brazos.',prayer:'Cuando siento que nadie está, tú siempre me recibes. Gracias, Padre.'},
-    {ref:'Apocalipsis 3:20',text:'Mira, yo estoy a la puerta y llamo. Si alguno oye mi voz y abre la puerta, entraré.',prayer:'Abre la puerta de mi corazón, Señor. Quiero tu compañía hoy.'},
-    {ref:'Salmos 16:8',text:'Siempre tengo presente al Señor; con él a mi derecha, nada me hará caer.',prayer:'Ayúdame a mantener tu presencia como mi realidad más concreta.'},
-    {ref:'Jeremías 31:3',text:'Con amor eterno te he amado; por eso te sigo con fidelidad.',prayer:'Tu amor eterno por mí no tiene pausas ni distancias. Gracias, Señor.'},
-    {ref:'Salmos 91:1',text:'El que habita al abrigo del Altísimo se acoge a la sombra del Todopoderoso.',prayer:'Hoy me refugio en ti. Tu sombra es mi hogar.'},
-    {ref:'Isaías 49:15-16',text:'Aunque ella lo olvide, yo no te olvidaré. Te he grabado en las palmas de mis manos.',prayer:'Estoy grabado/a en tus manos, Señor. Eso es más que suficiente.'},
-    {ref:'Salmos 142:3',text:'Cuando desfallece mi espíritu, solo tú sabes lo que necesito.',prayer:'Tú me conoces completamente. Eso hace que nunca esté verdaderamente solo/a.'},
-    {ref:'Génesis 28:15',text:'Yo estoy contigo. Te protegeré por dondequiera que vayas.',prayer:'Señor, camina conmigo hoy. Tu compañía transforma mi soledad.'},
-    {ref:'Sofonías 3:17',text:'El Señor tu Dios está en medio de ti, guerrero victorioso. Se deleitará en ti con alegría.',prayer:'Gracias porque no solo estás conmigo, sino que te deleitas en mi presencia.'},
-    {ref:'Juan 15:15',text:'Ya no los llamo siervos... los he llamado amigos.',prayer:'Jesús, gracias porque me llamas amigo/a. No hay soledad más grande que tu amistad.'},
-    {ref:'Romanos 8:38-39',text:'Nada nos podrá separar del amor de Dios.',prayer:'Nada puede separarme de tu amor, ni siquiera esta soledad que siento.'},
-    {ref:'Salmos 68:6',text:'Dios da un hogar a los desamparados.',prayer:'Gracias porque en ti siempre tengo un hogar, Señor.'},
-  ],
-  enojado: [
-    {ref:'Efesios 4:26',text:'Si se enojan, no pequen. No dejen que el sol se ponga estando aún enojados.',prayer:'Señor, calma mi corazón. Que mi enojo no me aleje de lo que es bueno.'},
-    {ref:'Proverbios 15:1',text:'La respuesta amable calma el enojo, pero la agresiva echa leña al fuego.',prayer:'Dame sabiduría para responder con amor, incluso cuando duele hacerlo.'},
-    {ref:'Santiago 1:19',text:'Todos deben estar listos para escuchar, y ser lentos para hablar y para enojarse.',prayer:'Ayúdame a escuchar antes de reaccionar, a comprender antes de juzgar.'},
-    {ref:'Romanos 12:19',text:'No tomen venganza, hermanos míos, sino dejen el castigo en las manos de Dios.',prayer:'Suelto esta situación en tus manos. Tú eres justo; yo puedo descansar.'},
-    {ref:'Colosenses 3:13',text:'Sopórtense unos a otros y perdónense si alguno tiene queja contra otro.',prayer:'Dame la fuerza de perdonar, no porque sea fácil, sino porque tú me perdonaste primero.'},
-    {ref:'Proverbios 14:29',text:'El que es paciente muestra gran discernimiento; el que es agresivo muestra mucha insensatez.',prayer:'Señor, dame tu paciencia en este momento. Que actúe con discernimiento.'},
-    {ref:'Proverbios 16:32',text:'Más vale ser paciente que valiente; más vale dominarse a sí mismo que conquistar ciudades.',prayer:'Dame la valentía de controlar mis emociones hoy, Señor.'},
-    {ref:'Salmos 37:8',text:'Refrena tu enojo, abandona la ira; no te irrites, pues esto conduce al mal.',prayer:'Ayúdame a soltar esta ira antes de que me dañe a mí y a otros.'},
-    {ref:'Romanos 12:21',text:'No te dejes vencer por el mal; al contrario, vence el mal con el bien.',prayer:'Quiero vencer este momento de enojo con bien. Ayúdame a encontrar cómo.'},
-    {ref:'1 Pedro 3:9',text:'No devuelvan mal por mal ni insulto por insulto; más bien, bendigan.',prayer:'Señor, que mis palabras bendigan incluso cuando mi corazón quiere herir.'},
-    {ref:'Proverbios 19:11',text:'El buen juicio hace al hombre paciente; su gloria es pasar por alto la ofensa.',prayer:'Dame la madurez de pasar por alto esta ofensa. Eso es fortaleza, no debilidad.'},
-    {ref:'Eclesiastés 7:9',text:'No te dejes llevar por el enojo, ya que éste anida en el pecho de los necios.',prayer:'Señor, no quiero que el enojo sea mi casa. Límpiame y renuévame.'},
-    {ref:'Colosenses 3:15',text:'Que gobierne en sus corazones la paz de Cristo.',prayer:'Que tu paz, no mi enojo, sea quien gobierne mis decisiones de hoy.'},
-    {ref:'Gálatas 5:22-23',text:'El fruto del Espíritu es amor, alegría, paz, paciencia, amabilidad, bondad, fidelidad, humildad y dominio propio.',prayer:'Produce en mí estos frutos, Espíritu Santo. Lo que siento ahora no me define.'},
-    {ref:'Mateo 18:22',text:'No te digo que hasta siete veces, sino hasta setenta y siete veces.',prayer:'Señor, que mi capacidad de perdonar no tenga límite, así como la tuya no lo tiene.'},
-    {ref:'Lucas 6:27',text:'Amen a sus enemigos, hagan bien a quienes los odian.',prayer:'No puedo hacer esto solo/a. Dame sobrenatural amor por quien me hizo daño.'},
-    {ref:'Proverbios 15:18',text:'El que es iracundo provoca contiendas; el que es paciente las apacigua.',prayer:'Quiero ser quien apacigua, no quien enciende. Hazme así, Señor.'},
-    {ref:'Romanos 12:18',text:'Si es posible, y en cuanto dependa de ustedes, vivan en paz con todos.',prayer:'Señor, muéstrame qué depende de mí para restaurar esta paz.'},
-    {ref:'Salmos 4:4',text:'Si se enojan, no pequen; en la quietud del descanso nocturno examinen su corazón.',prayer:'En el silencio de hoy, examina mi corazón y muéstrame qué sanar.'},
-    {ref:'Mateo 5:44',text:'Amen a sus enemigos y oren por quienes los persiguen.',prayer:'Es difícil, Señor, pero decido orar por quien me hirió. Cámbiame desde adentro.'},
-  ],
-  agradecido: [
-    {ref:'1 Tesalonicenses 5:18',text:'Den gracias a Dios en toda situación, porque esta es su voluntad para ustedes en Cristo Jesús.',prayer:'Señor, que mi gratitud no solo sea en los buenos momentos, sino en todos.'},
-    {ref:'Salmos 107:1',text:'Den gracias al Señor, porque él es bueno; su gran amor perdura para siempre.',prayer:'Padre, hoy mi corazón rebosa de gratitud. Gracias por todo lo que soy y tengo.'},
-    {ref:'Colosenses 3:17',text:'Todo lo que hagan, de palabra o de obra, háganlo en el nombre del Señor Jesús, dando gracias.',prayer:'Que cada acción de mi día sea un acto de gratitud hacia ti.'},
-    {ref:'Salmos 100:4',text:'Entren por sus puertas con acción de gracias; vengan a sus atrios con himnos de alabanza.',prayer:'Me acerco a ti hoy con un corazón lleno de gracias.'},
-    {ref:'Salmos 136:1',text:'Den gracias al Señor, porque él es bueno; su gran amor perdura para siempre.',prayer:'Tu amor no tiene fin. Por eso mi gratitud tampoco debería tenerlo.'},
-    {ref:'Colosenses 4:2',text:'Dedíquense a la oración: perseveren en ella con agradecimiento.',prayer:'Que la gratitud sea el ambiente en el que vivo, no solo un momento especial.'},
-    {ref:'Efesios 5:20',text:'Dando siempre gracias a Dios el Padre por todo, en el nombre de nuestro Señor Jesucristo.',prayer:'Gracias por todo, Señor. Incluso por lo que aún no entiendo.'},
-    {ref:'Filipenses 4:11',text:'He aprendido a estar satisfecho en cualquier situación en que me encuentre.',prayer:'Señor, enséñame el secreto del contentamiento que Pablo aprendió.'},
-    {ref:'Salmos 9:1',text:'Quiero alabarte, Señor, con todo el corazón, y contar todas tus maravillas.',prayer:'Hoy quiero contar tus maravillas en mi vida. Son demasiadas para enumerarlas.'},
-    {ref:'Salmos 50:23',text:'Quien me ofrece su gratitud, me honra.',prayer:'Mi gratitud no es pequeña ofrenda. Con ella te honro, Señor.'},
-    {ref:'Hebreos 12:28',text:'Así que nosotros, que estamos recibiendo un reino inconmovible, seamos agradecidos.',prayer:'Gracias porque lo que tengo en ti no se puede quitar. Eso me llena de paz.'},
-    {ref:'1 Crónicas 16:8',text:'Den gracias al Señor, invoquen su nombre; den a conocer sus obras entre las naciones.',prayer:'Que mi gratitud no se quede privada, sino que otros vean lo que tú has hecho.'},
-    {ref:'Salmos 103:2',text:'Alaba, alma mía, al Señor, y no olvides ninguno de sus beneficios.',prayer:'Hoy hago un inventario de tus bondades. Son demasiadas para olvidarlas.'},
-    {ref:'Salmos 116:12',text:'¿Cómo le pagaré al Señor por tanta bondad que me ha mostrado?',prayer:'No puedo pagarte, Señor. Solo puedo darte mi vida entera en gratitud.'},
-    {ref:'Salmos 69:30',text:'Alabaré el nombre de Dios con cánticos; lo exaltaré con himnos de gratitud.',prayer:'Hoy mi gratitud se convierte en canción para ti, Señor.'},
-    {ref:'Lucas 17:15-16',text:'Uno de ellos, al verse ya sano, regresó alabando a Dios a grandes voces.',prayer:'Que yo sea siempre el que regresa a darte gracias, Señor.'},
-    {ref:'Apocalipsis 4:11',text:'Digno eres, Señor y Dios nuestro, de recibir la gloria, la honra y el poder.',prayer:'Hoy te doy la gloria, el honor y el poder que solo tú mereces.'},
-    {ref:'Salmos 118:1',text:'Den gracias al Señor, porque él es bueno; su amor perdura para siempre.',prayer:'Tu bondad es lo que hace posible mi gratitud. Gracias por ser tan bueno.'},
-    {ref:'Romanos 1:21',text:'Aunque conocían a Dios, no lo glorificaron como a Dios ni le dieron gracias.',prayer:'Que yo nunca dé por sentado lo que tú haces. Gracias por todo, siempre.'},
-    {ref:'Daniel 2:23',text:'A ti, Dios de mis antepasados, te alabo y te doy gracias.',prayer:'Gracias por la herencia de fe que tengo y por todo lo que has hecho en mi historia.'},
-  ],
-  asustado: [
-    {ref:'2 Timoteo 1:7',text:'Pues Dios no nos ha dado un espíritu de timidez, sino de poder, de amor y de dominio propio.',prayer:'Señor, reemplaza mi miedo con la valentía que solo tú puedes dar.'},
-    {ref:'Josué 1:9',text:'Sé fuerte y valiente. No tengas miedo. El Señor tu Dios estará contigo dondequiera que vayas.',prayer:'Padre, que tu presencia sea más grande que cualquier cosa que me atemoriza.'},
-    {ref:'Salmos 56:3',text:'Cuando siento miedo, pongo en ti mi confianza.',prayer:'En este momento de temor, decido confiar. Tú eres más grande que lo que temo.'},
-    {ref:'Isaías 43:1',text:'No temas, que yo te he redimido; te he llamado por tu nombre; tú eres mío.',prayer:'Soy tuyo, Señor. Y si soy tuyo, no tengo nada que temer.'},
-    {ref:'Salmos 91:4',text:'Con sus plumas te cubrirá, y bajo sus alas hallarás refugio.',prayer:'Escóndeme bajo tu protección hoy. Eres mi refugio seguro.'},
-    {ref:'Isaías 41:10',text:'No temas, porque yo estoy contigo; no te angusties, porque yo soy tu Dios. Te fortaleceré y te ayudaré.',prayer:'Recibo hoy tu fortaleza. No tengo que enfrentar esto solo/a.'},
-    {ref:'Salmos 27:1',text:'El Señor es mi luz y mi salvación; ¿a quién temeré?',prayer:'Tú eres mi luz en la oscuridad. Con eso es suficiente.'},
-    {ref:'Romanos 8:15',text:'No recibieron un espíritu que de nuevo los esclavice al miedo, sino el Espíritu que los adopta como hijos.',prayer:'Soy hijo/a de Dios. El miedo no es mi identidad ni mi destino.'},
-    {ref:'Deuteronomio 31:8',text:'El Señor mismo marchará al frente de ti y estará contigo; nunca te dejará ni te abandonará.',prayer:'Tú vas delante de mí, Señor. Lo que me espera ya lo has visto tú primero.'},
-    {ref:'Salmos 34:4',text:'Busqué al Señor, y él me respondió; me libró de todos mis temores.',prayer:'Señor, te busco ahora mismo. Líbrame de este miedo que me paraliza.'},
-    {ref:'Juan 14:27',text:'La paz les dejo; mi paz les doy. No se angustien ni se acobarden.',prayer:'Recibo tu paz hoy. No me acobardaré porque tú estás conmigo.'},
-    {ref:'Salmos 46:2',text:'No temeremos, aunque se deshaga la tierra.',prayer:'Aunque todo parezca derrumbarse, puedo estar tranquilo/a porque tú eres inmovible.'},
-    {ref:'Hebreos 13:6',text:'El Señor es quien me ayuda; no temeré. ¿Qué me puede hacer un simple mortal?',prayer:'Tú eres mi ayuda. Eso es más poderoso que cualquier cosa que me asusta.'},
-    {ref:'1 Juan 4:18',text:'El amor perfecto echa fuera el temor.',prayer:'Señor, que tu amor perfecto desplace todo temor de mi corazón.'},
-    {ref:'Isaías 35:4',text:'Digan a los de corazón temeroso: Sean fuertes y no teman.',prayer:'Recibo esta palabra hoy. Soy fuerte en ti aunque no lo sienta todavía.'},
-    {ref:'Miqueas 7:8',text:'Aunque caiga, me levantaré; aunque more en tinieblas, el Señor será mi luz.',prayer:'Aunque el miedo me haga caer, contigo siempre puedo levantarme.'},
-    {ref:'Salmos 112:7',text:'No temerá recibir malas noticias; su corazón estará firme, confiado en el Señor.',prayer:'Afianza mi corazón en ti, Señor, para que ninguna noticia pueda derrumbarme.'},
-    {ref:'Números 14:9',text:'No les tengan miedo. El Señor está de nuestra parte.',prayer:'El Señor está de mi parte. Eso cambia todo.'},
-    {ref:'Proverbios 3:25-26',text:'No temerás ningún desastre repentino, ni la desgracia que sobreviene a los impíos, porque el Señor estará siempre a tu lado.',prayer:'Gracias porque no tengo que temerle al futuro. Tú ya estás ahí.'},
-    {ref:'Salmos 3:6',text:'No me asustan los numerosos escuadrones que me acosan por doquier.',prayer:'No importa cuánto me rodee el miedo. Tú eres más grande que todo eso.'},
-  ],
-  confundido: [
-    {ref:'Proverbios 3:5-6',text:'Confía en el Señor de todo corazón, y no en tu propia inteligencia. Reconócelo en todos tus caminos, y él allanará tus sendas.',prayer:'Señor, no entiendo todo, pero confío en que tú sí. Guía mis pasos.'},
-    {ref:'Santiago 1:5',text:'Si a alguno de ustedes le falta sabiduría, pídasela a Dios, y él se la dará generosamente.',prayer:'Padre, necesito tu sabiduría hoy. Ilumina mi mente y calma mi corazón.'},
-    {ref:'Salmos 32:8',text:'El Señor dice: Yo te instruiré y te mostraré el camino que debes seguir.',prayer:'Habla, Señor. Tu voz es la brújula que mi alma necesita.'},
-    {ref:'Isaías 30:21',text:'Ya sea que te desvíes a la derecha o a la izquierda, tus oídos percibirán a tus espaldas una voz que te dirá: Este es el camino; síguelo.',prayer:'Ayúdame a quietarme lo suficiente para escuchar tu dirección.'},
-    {ref:'Juan 16:13',text:'Cuando venga el Espíritu de la verdad, él los guiará a toda la verdad.',prayer:'Espíritu Santo, guíame. No confío en mi entendimiento, confío en ti.'},
-    {ref:'Jeremías 29:11',text:'Porque yo sé los planes que tengo para ustedes, planes de bienestar y no de calamidad, a fin de darles un futuro y una esperanza.',prayer:'Aunque no vea el camino, tú sí lo ves. Tus planes para mí son buenos.'},
-    {ref:'Salmos 119:105',text:'Tu palabra es una lámpara a mis pies; es una luz en mi sendero.',prayer:'Ilumina el siguiente paso, Señor. No necesito ver todo el camino, solo el siguiente.'},
-    {ref:'Isaías 42:16',text:'Guiaré a los ciegos por caminos desconocidos, los llevaré por senderos que no han frecuentado.',prayer:'Guíame por donde yo no conozco. Confío en tu mano en este camino nuevo.'},
-    {ref:'Proverbios 16:9',text:'El corazón del hombre traza su rumbo, pero sus pasos los dirige el Señor.',prayer:'Entrego mis planes a ti, Señor. Dirige tú mis pasos.'},
-    {ref:'Salmos 25:4-5',text:'Señor, hazme conocer tus caminos; muéstrame tus sendas. Encamíname en tu verdad, ¡enséñame!',prayer:'Enséñame tu camino hoy, Señor. Quiero ir donde tú vayas.'},
-    {ref:'Romanos 8:28',text:'Sabemos que Dios dispone todas las cosas para el bien de quienes lo aman.',prayer:'Aunque no entiendo cómo, creo que tú puedes ordenar este caos para mi bien.'},
-    {ref:'1 Corintios 14:33',text:'Dios no es un Dios de desorden sino de paz.',prayer:'Señor, donde hay confusión en mí, trae tu orden y tu paz.'},
-    {ref:'Salmos 73:24',text:'Me guías con tu consejo, y más tarde me acogerás en gloria.',prayer:'Confío en tu consejo, Señor. Aunque no entienda hoy, confío en el final de la historia.'},
-    {ref:'Isaías 58:11',text:'El Señor te guiará siempre; te saciará en tierras resecas.',prayer:'Aunque este momento se siente como un desierto, tú me guías y me saciarás.'},
-    {ref:'Habacuc 2:3',text:'Aunque la visión tardará aún por algún tiempo, pero al final hablará, y no mentirá.',prayer:'Señor, dame la paciencia de esperar tu respuesta aunque tarde.'},
-    {ref:'Salmos 48:14',text:'Este Dios es nuestro Dios eterno; él nos guiará para siempre.',prayer:'Para siempre me guiarás. Eso incluye este momento confuso en el que estoy.'},
-    {ref:'Filipenses 4:7',text:'La paz de Dios, que sobrepasa todo entendimiento, cuidará sus corazones y sus pensamientos en Cristo Jesús.',prayer:'Señor, no entiendo, pero recibo tu paz que también está más allá del entendimiento.'},
-    {ref:'Mateo 7:7',text:'Pidan, y se les dará; busquen, y encontrarán; llamen, y se les abrirá.',prayer:'Estoy pidiendo, buscando y llamando. Confío en que responderás.'},
-    {ref:'Salmos 37:23',text:'El Señor afirma los pasos del hombre bueno y se deleita en su camino.',prayer:'Señor, afirma mis pasos hoy. Confío en que te deleitas en guiarme.'},
-    {ref:'Proverbios 11:14',text:'Donde no hay buen consejo, el pueblo cae, pero en la abundancia de consejeros está la victoria.',prayer:'Dame sabiduría para saber a quién escuchar y humildad para pedir ayuda.'},
-  ]
-};
+const verses={feliz:[{ref:'Salmos 118:24',text:'Este es el día que hizo el Señor; regocijémonos y alegrémonos en él.',prayer:'Gracias, Señor, por este momento de alegría. Que mi corazón nunca olvide tu bondad.'},{ref:'Filipenses 4:4',text:'Alégrense siempre en el Señor. Insisto: ¡Alégrense!',prayer:'Padre, que esta alegría sea un reflejo de tu amor obrando en mi vida.'},{ref:'Salmos 37:4',text:'Deléitate en el Señor, y él te concederá los deseos de tu corazón.',prayer:'Que en mis momentos de gozo siempre te busque a ti primero.'},{ref:'Nehemías 8:10',text:'No estén tristes, pues el gozo del Señor es su fuerza.',prayer:'Tu gozo, Señor, es mi fortaleza hoy y siempre.'},{ref:'Salmos 16:11',text:'En tu presencia hay plenitud de gozo; delicias a tu diestra para siempre.',prayer:'Señor, que cada momento de alegría me recuerde que su fuente eres tú.'},{ref:'Romanos 15:13',text:'Que el Dios de la esperanza los llene de toda alegría y paz a ustedes que creen en él.',prayer:'Llena mi corazón de tu alegría hoy, Señor.'},{ref:'Salmos 28:7',text:'El Señor es mi fuerza y mi escudo; mi corazón en él confía. Mi corazón salta de alegría.',prayer:'Mi corazón salta de gozo porque tú eres fiel, Señor.'},{ref:'Juan 15:11',text:'Les he dicho esto para que tengan mi alegría y así su alegría sea completa.',prayer:'Gracias, Jesús, porque tu alegría en mí es completa.'},{ref:'Salmos 126:3',text:'El Señor ha hecho grandes cosas por nosotros, y eso nos llena de alegría.',prayer:'Recuérdame hoy todo lo grande que has hecho en mi vida, Padre.'},{ref:'Isaías 61:10',text:'Me deleito mucho en el Señor; me regocijo en mi Dios.',prayer:'Hoy elijo regocijarme en ti, independientemente de lo que me rodee.'},{ref:'Sofonías 3:17',text:'El Señor tu Dios está en medio de ti, guerrero victorioso. Se deleitará en ti con alegría.',prayer:'Gracias porque tú también te alegras por mí, Señor.'},{ref:'Salmos 9:2',text:'Me alegro en ti y me regocijo; canto salmos a tu nombre, oh Altísimo.',prayer:'Hoy mi alegría es un acto de adoración hacia ti.'},{ref:'Proverbios 17:22',text:'Gran remedio es el corazón alegre, pero el ánimo decaído seca los huesos.',prayer:'Señor, que esta alegría sea medicina para mi cuerpo y mi alma.'},{ref:'Habacuc 3:18',text:'Aun así, yo me regocijaré en el Señor, ¡me alegraré en Dios, mi libertador!',prayer:'Decido alegrarme en ti sin importar las circunstancias.'},{ref:'Salmos 32:11',text:'Alégrense en el Señor y gócense, ustedes los justos.',prayer:'Hoy mi corazón canta porque tú eres bueno.'},{ref:'Romanos 12:12',text:'Alégrense en la esperanza, muestren paciencia en el sufrimiento, perseveren en la oración.',prayer:'Que mi alegría nazca de la esperanza que tengo en ti, Señor.'},{ref:'Salmos 68:3',text:'Pero que los justos se alegren y se regocijen delante de Dios.',prayer:'Me pongo delante de ti hoy con un corazón contento y agradecido.'},{ref:'Eclesiastés 9:7',text:'Anda, come tu pan con alegría, que Dios ya se ha agradado de tus obras.',prayer:'Gracias porque puedo disfrutar la vida que me has dado con plena libertad.'},{ref:'Salmos 63:7',text:'Porque fuiste mi ayuda, y a la sombra de tus alas me regocijo.',prayer:'Bajo tu sombra encuentro seguridad y alegría verdadera, Señor.'},{ref:'1 Pedro 1:8',text:'Así se alegran con una alegría indescriptible y gloriosa.',prayer:'Que mi fe produzca una alegría que el mundo no pueda explicar.'}],triste:[{ref:'Salmos 34:18',text:'El Señor está cerca de los quebrantados de corazón, y salva a los de espíritu abatido.',prayer:'Señor, siento tu cercanía aunque no pueda verla. Sana lo que duele en mí.'},{ref:'Mateo 5:4',text:'Dichosos los que lloran, porque ellos serán consolados.',prayer:'Padre, recibe mis lágrimas como oración. Tú eres mi refugio y mi fuerza.'},{ref:'Salmos 30:5',text:'El llanto puede durar toda la noche, pero a la mañana vendrá la alegría.',prayer:'Ayúdame a creer que después de esta noche, llega tu luz.'},{ref:'2 Corintios 1:3-4',text:'Dios, Padre de misericordias y Dios de toda consolación, nos consuela en todas nuestras tribulaciones.',prayer:'Recibo hoy tu consuelo, Padre. Que pueda darlo también a otros.'},{ref:'Isaías 53:4',text:'Ciertamente él cargó con nuestras enfermedades y soportó nuestros dolores.',prayer:'Jesús, tú conoces este peso. Cárgalo conmigo, por favor.'},{ref:'Salmos 147:3',text:'Restaura a los abatidos de corazón y cubre con vendas sus heridas.',prayer:'Señor, ven a restaurar lo que está roto dentro de mí hoy.'},{ref:'Juan 14:1',text:'No se angustien. Confíen en Dios y confíen también en mí.',prayer:'Hoy elijo confiar aunque no entiendo. Tú eres suficiente para este dolor.'},{ref:'Romanos 8:28',text:'Sabemos que Dios dispone todas las cosas para el bien de quienes lo aman.',prayer:'Ayúdame a creer que incluso este momento doloroso tiene un propósito en tus manos.'},{ref:'Salmos 56:8',text:'Tú has llevado cuenta de mis lamentos; registra mi llanto en tu libro.',prayer:'Gracias porque ninguna lágrima mía pasa desapercibida ante ti.'},{ref:'Apocalipsis 21:4',text:'Enjugará toda lágrima de sus ojos, y ya no habrá muerte, ni llanto, ni lamento ni dolor.',prayer:'Señor, que esta promesa sea mi ancla en los momentos de tristeza más profunda.'},{ref:'Isaías 43:2',text:'Cuando cruces las aguas, yo estaré contigo; cuando cruces los ríos, no te cubrirán sus aguas.',prayer:'Aunque siento que me ahogo, tú estás aquí. No me soltarás.'},{ref:'Salmos 23:4',text:'Aun si voy por valles tenebrosos, no temo peligro alguno porque tú estás a mi lado.',prayer:'Este valle es oscuro, Señor, pero tu presencia lo ilumina todo.'},{ref:'Salmos 73:26',text:'Podrán desfallecer mi cuerpo y mi espíritu, pero Dios fortalece mi corazón.',prayer:'Cuando ya no me queden fuerzas, tú sigues siendo mi fortaleza.'},{ref:'1 Pedro 5:10',text:'El Dios de toda gracia los restaurará y los hará fuertes.',prayer:'Gracias porque esta tristeza no es el final de mi historia.'},{ref:'Jeremías 31:13',text:'Convertiré su duelo en gozo, y los consolaré; transformaré su dolor en alegría.',prayer:'Creo que tú puedes convertir este dolor en algo hermoso, Señor.'},{ref:'Mateo 11:28',text:'Vengan a mí todos ustedes que están cansados y agobiados, y yo les daré descanso.',prayer:'Vengo a ti cansado/a, Jesús. Dame el descanso que solo tú puedes dar.'},{ref:'Isaías 40:31',text:'Los que confían en el Señor renovarán sus fuerzas; volarán como las águilas.',prayer:'Renueva mis fuerzas, Señor. Hoy decido confiar en ti.'},{ref:'Salmos 34:19',text:'Muchas son las angustias del justo, pero el Señor lo librará de todas ellas.',prayer:'Gracias porque cada una de mis angustias tiene fecha de vencimiento en tus manos.'},{ref:'Salmos 9:9',text:'El Señor es refugio de los oprimidos; es su baluarte en momentos de angustia.',prayer:'Vengo a ti como mi refugio seguro. Aquí estoy, Señor.'},{ref:'Isaías 49:16',text:'Te he grabado en las palmas de mis manos.',prayer:'Estoy grabado/a en tus manos, Señor. Eso es más que suficiente.'}],ansioso:[{ref:'Filipenses 4:6-7',text:'No se inquieten por nada; más bien, en toda ocasión, presenten sus peticiones a Dios.',prayer:'Señor, te entrego mis preocupaciones. Tu paz sobrepasa todo entendimiento.'},{ref:'Mateo 6:34',text:'No se preocupen por el mañana, porque el día de mañana traerá sus propias preocupaciones.',prayer:'Ayúdame a vivir este momento contigo, sin cargar con lo que aún no ha llegado.'},{ref:'1 Pedro 5:7',text:'Depositen en él toda ansiedad, porque él cuida de ustedes.',prayer:'Abro mis manos y suelto todo aquello que me tiene agitado. Cuídame, Señor.'},{ref:'Juan 14:27',text:'La paz les dejo; mi paz les doy. No se la doy como la da el mundo.',prayer:'Necesito esa paz que solo tú das. Entra a mi mente y calma la tormenta.'},{ref:'Isaías 26:3',text:'Al de firme propósito lo guardarás en perfecta paz, porque en ti confía.',prayer:'Decido hoy mantener mi mente en ti. Tú eres mi ancla.'},{ref:'Salmos 46:10',text:'Quédense quietos, reconozcan que yo soy Dios.',prayer:'Señor, ayúdame a hacer silencio y recordar que tú tienes el control.'},{ref:'2 Timoteo 1:7',text:'Pues Dios no nos ha dado un espíritu de timidez, sino de poder, de amor y de dominio propio.',prayer:'Rechazo el espíritu de ansiedad. Recibo tu espíritu de poder y dominio propio.'},{ref:'Salmos 55:22',text:'Encomienda al Señor tus afanes, y él te sostendrá.',prayer:'Hoy encomienzo mis cargas a ti, Señor. Tú me sostienes.'},{ref:'Romanos 8:38-39',text:'Nada nos podrá separar del amor que Dios nos ha manifestado en Cristo Jesús.',prayer:'Aunque todo parezca incierto, tu amor por mí nunca cambia. Eso me calma.'},{ref:'Isaías 41:13',text:'Yo soy el Señor tu Dios, que te sostengo de la mano derecha y te digo: No temas.',prayer:'Siento tu mano sosteniéndome hoy, Señor.'},{ref:'Salmos 94:19',text:'Cuando en mí la angustia iba en aumento, tu consuelo llenaba mi alma de alegría.',prayer:'Que tu consuelo llegue a los rincones más ansiosos de mi corazón.'},{ref:'Juan 16:33',text:'En este mundo afrontarán aflicciones, pero ¡anímense! Yo he vencido al mundo.',prayer:'Jesús, tú ya venciste. En ti, yo también venzo esta ansiedad.'},{ref:'Salmos 27:1',text:'El Señor es mi luz y mi salvación; ¿a quién temeré?',prayer:'Tú eres más grande que cualquier cosa que me cause temor hoy.'},{ref:'Isaías 35:4',text:'Digan a los de corazón temeroso: Sean fuertes y no teman.',prayer:'Recibo esta palabra hoy. Soy fuerte en ti aunque no lo sienta.'},{ref:'Proverbios 3:24',text:'Cuando te acuestes, no tendrás temor alguno; tu sueño será agradable.',prayer:'Señor, que pueda descansar esta noche sabiendo que tú velas por mí.'},{ref:'Romanos 15:13',text:'Que el Dios de la esperanza los llene de toda alegría y paz a ustedes que creen en él.',prayer:'Lléname de tu paz hoy, Señor.'},{ref:'Salmos 29:11',text:'El Señor fortalece a su pueblo; el Señor bendice a su pueblo con la paz.',prayer:'Reclamo hoy la paz que prometes para tu pueblo.'},{ref:'Lucas 12:25',text:'¿Quién de ustedes, por mucho que se preocupe, puede añadir una sola hora al curso de su vida?',prayer:'Recuérdame que la ansiedad no cambia nada, pero la oración sí.'},{ref:'Mateo 6:26',text:'Miren las aves del cielo; sin embargo, el Padre celestial las alimenta.',prayer:'Si cuidas de las aves, cuánto más me cuidas a mí. Gracias, Padre.'},{ref:'Proverbios 12:25',text:'La angustia deprime al hombre, pero la buena palabra lo anima.',prayer:'Gracias porque tu Palabra es la buena palabra que mi corazón necesita hoy.'}],solo:[{ref:'Deuteronomio 31:6',text:'No tengas miedo ni te desanimes, porque el Señor tu Dios te acompañará dondequiera que vayas.',prayer:'Señor, en mi soledad recuérdame que nunca estoy realmente solo/a.'},{ref:'Salmos 23:4',text:'Aun si voy por valles tenebrosos, no temo peligro alguno porque tú estás a mi lado.',prayer:'Padre, sé mi compañía en este silencio. Tu presencia es suficiente.'},{ref:'Isaías 41:10',text:'No temas, porque yo estoy contigo; no te angusties, porque yo soy tu Dios.',prayer:'En este momento de soledad, ayúdame a sentir que tú me abrazas.'},{ref:'Hebreos 13:5',text:'Nunca te dejaré; jamás te abandonaré.',prayer:'Señor, aférrame a esta promesa cuando el silencio pesa demasiado.'},{ref:'Salmos 139:7-8',text:'¿A dónde podría alejarme de tu Espíritu? ¿A dónde podría huir de tu presencia?',prayer:'Gracias porque no existe lugar donde no estés. No estoy solo/a.'},{ref:'Mateo 28:20',text:'Les aseguro que estaré con ustedes siempre, hasta el fin del mundo.',prayer:'Jesús, tu promesa de estar conmigo siempre incluye este momento.'},{ref:'Juan 14:18',text:'No los voy a dejar huérfanos; volveré a ustedes.',prayer:'Gracias porque nunca me abandonas. Tu presencia es real aunque no la vea.'},{ref:'Isaías 54:10',text:'No cambiará mi fiel amor por ti.',prayer:'Tu amor por mí no depende de si estoy rodeado de gente. Siempre estás aquí.'},{ref:'Salmos 27:10',text:'Aunque mi padre y mi madre me abandonen, el Señor me recibirá en sus brazos.',prayer:'Cuando siento que nadie está, tú siempre me recibes. Gracias, Padre.'},{ref:'Apocalipsis 3:20',text:'Mira, yo estoy a la puerta y llamo. Si alguno oye mi voz y abre la puerta, entraré.',prayer:'Abre la puerta de mi corazón, Señor. Quiero tu compañía hoy.'},{ref:'Salmos 16:8',text:'Siempre tengo presente al Señor; con él a mi derecha, nada me hará caer.',prayer:'Ayúdame a mantener tu presencia como mi realidad más concreta.'},{ref:'Jeremías 31:3',text:'Con amor eterno te he amado; por eso te sigo con fidelidad.',prayer:'Tu amor eterno por mí no tiene pausas ni distancias. Gracias, Señor.'},{ref:'Salmos 91:1',text:'El que habita al abrigo del Altísimo se acoge a la sombra del Todopoderoso.',prayer:'Hoy me refugio en ti. Tu sombra es mi hogar.'},{ref:'Salmos 142:3',text:'Cuando desfallece mi espíritu, solo tú sabes lo que necesito.',prayer:'Tú me conoces completamente. Eso hace que nunca esté verdaderamente solo/a.'},{ref:'Génesis 28:15',text:'Yo estoy contigo. Te protegeré por dondequiera que vayas.',prayer:'Señor, camina conmigo hoy. Tu compañía transforma mi soledad.'},{ref:'Sofonías 3:17',text:'El Señor tu Dios está en medio de ti. Se deleitará en ti con alegría.',prayer:'Gracias porque no solo estás conmigo, sino que te deleitas en mi presencia.'},{ref:'Juan 15:15',text:'Ya no los llamo siervos... los he llamado amigos.',prayer:'Jesús, gracias porque me llamas amigo/a.'},{ref:'Romanos 8:38-39',text:'Nada nos podrá separar del amor de Dios.',prayer:'Nada puede separarme de tu amor, ni siquiera esta soledad que siento.'},{ref:'Salmos 68:6',text:'Dios da un hogar a los desamparados.',prayer:'Gracias porque en ti siempre tengo un hogar, Señor.'},{ref:'Isaías 49:16',text:'Te he grabado en las palmas de mis manos.',prayer:'Estoy grabado/a en tus manos, Señor. Eso es más que suficiente.'}],enojado:[{ref:'Efesios 4:26',text:'Si se enojan, no pequen. No dejen que el sol se ponga estando aún enojados.',prayer:'Señor, calma mi corazón. Que mi enojo no me aleje de lo que es bueno.'},{ref:'Proverbios 15:1',text:'La respuesta amable calma el enojo, pero la agresiva echa leña al fuego.',prayer:'Dame sabiduría para responder con amor, incluso cuando duele hacerlo.'},{ref:'Santiago 1:19',text:'Todos deben estar listos para escuchar, y ser lentos para hablar y para enojarse.',prayer:'Ayúdame a escuchar antes de reaccionar, a comprender antes de juzgar.'},{ref:'Romanos 12:19',text:'No tomen venganza, hermanos míos, sino dejen el castigo en las manos de Dios.',prayer:'Suelto esta situación en tus manos. Tú eres justo; yo puedo descansar.'},{ref:'Colosenses 3:13',text:'Sopórtense unos a otros y perdónense si alguno tiene queja contra otro.',prayer:'Dame la fuerza de perdonar, no porque sea fácil, sino porque tú me perdonaste primero.'},{ref:'Proverbios 14:29',text:'El que es paciente muestra gran discernimiento; el que es agresivo muestra mucha insensatez.',prayer:'Señor, dame tu paciencia en este momento.'},{ref:'Proverbios 16:32',text:'Más vale ser paciente que valiente; más vale dominarse a sí mismo que conquistar ciudades.',prayer:'Dame la valentía de controlar mis emociones hoy, Señor.'},{ref:'Salmos 37:8',text:'Refrena tu enojo, abandona la ira; no te irrites, pues esto conduce al mal.',prayer:'Ayúdame a soltar esta ira antes de que me dañe a mí y a otros.'},{ref:'Romanos 12:21',text:'No te dejes vencer por el mal; al contrario, vence el mal con el bien.',prayer:'Quiero vencer este momento de enojo con bien.'},{ref:'1 Pedro 3:9',text:'No devuelvan mal por mal ni insulto por insulto; más bien, bendigan.',prayer:'Señor, que mis palabras bendigan incluso cuando mi corazón quiere herir.'},{ref:'Proverbios 19:11',text:'El buen juicio hace al hombre paciente; su gloria es pasar por alto la ofensa.',prayer:'Dame la madurez de pasar por alto esta ofensa.'},{ref:'Colosenses 3:15',text:'Que gobierne en sus corazones la paz de Cristo.',prayer:'Que tu paz, no mi enojo, sea quien gobierne mis decisiones de hoy.'},{ref:'Gálatas 5:22-23',text:'El fruto del Espíritu es amor, alegría, paz, paciencia, amabilidad, bondad, fidelidad, humildad y dominio propio.',prayer:'Produce en mí estos frutos, Espíritu Santo.'},{ref:'Mateo 18:22',text:'No te digo que hasta siete veces, sino hasta setenta y siete veces.',prayer:'Señor, que mi capacidad de perdonar no tenga límite.'},{ref:'Lucas 6:27',text:'Amen a sus enemigos, hagan bien a quienes los odian.',prayer:'No puedo hacer esto solo/a. Dame sobrenatural amor por quien me hizo daño.'},{ref:'Proverbios 15:18',text:'El que es iracundo provoca contiendas; el que es paciente las apacigua.',prayer:'Quiero ser quien apacigua, no quien enciende.'},{ref:'Romanos 12:18',text:'Si es posible, y en cuanto dependa de ustedes, vivan en paz con todos.',prayer:'Señor, muéstrame qué depende de mí para restaurar esta paz.'},{ref:'Salmos 4:4',text:'Si se enojan, no pequen; en la quietud del descanso nocturno examinen su corazón.',prayer:'En el silencio de hoy, examina mi corazón y muéstrame qué sanar.'},{ref:'Mateo 5:44',text:'Amen a sus enemigos y oren por quienes los persiguen.',prayer:'Es difícil, Señor, pero decido orar por quien me hirió.'},{ref:'Eclesiastés 7:9',text:'No te dejes llevar por el enojo, ya que éste anida en el pecho de los necios.',prayer:'Señor, no quiero que el enojo sea mi casa. Límpiame y renuévame.'}],agradecido:[{ref:'1 Tesalonicenses 5:18',text:'Den gracias a Dios en toda situación, porque esta es su voluntad para ustedes en Cristo Jesús.',prayer:'Señor, que mi gratitud no solo sea en los buenos momentos, sino en todos.'},{ref:'Salmos 107:1',text:'Den gracias al Señor, porque él es bueno; su gran amor perdura para siempre.',prayer:'Padre, hoy mi corazón rebosa de gratitud. Gracias por todo lo que soy y tengo.'},{ref:'Colosenses 3:17',text:'Todo lo que hagan, de palabra o de obra, háganlo en el nombre del Señor Jesús, dando gracias.',prayer:'Que cada acción de mi día sea un acto de gratitud hacia ti.'},{ref:'Salmos 100:4',text:'Entren por sus puertas con acción de gracias; vengan a sus atrios con himnos de alabanza.',prayer:'Me acerco a ti hoy con un corazón lleno de gracias.'},{ref:'Salmos 136:1',text:'Den gracias al Señor, porque él es bueno; su gran amor perdura para siempre.',prayer:'Tu amor no tiene fin. Por eso mi gratitud tampoco debería tenerlo.'},{ref:'Efesios 5:20',text:'Dando siempre gracias a Dios el Padre por todo, en el nombre de nuestro Señor Jesucristo.',prayer:'Gracias por todo, Señor. Incluso por lo que aún no entiendo.'},{ref:'Filipenses 4:11',text:'He aprendido a estar satisfecho en cualquier situación en que me encuentre.',prayer:'Señor, enséñame el secreto del contentamiento que Pablo aprendió.'},{ref:'Salmos 9:1',text:'Quiero alabarte, Señor, con todo el corazón, y contar todas tus maravillas.',prayer:'Hoy quiero contar tus maravillas en mi vida.'},{ref:'Salmos 50:23',text:'Quien me ofrece su gratitud, me honra.',prayer:'Mi gratitud no es pequeña ofrenda. Con ella te honro, Señor.'},{ref:'Hebreos 12:28',text:'Así que nosotros, que estamos recibiendo un reino inconmovible, seamos agradecidos.',prayer:'Gracias porque lo que tengo en ti no se puede quitar.'},{ref:'1 Crónicas 16:8',text:'Den gracias al Señor, invoquen su nombre; den a conocer sus obras entre las naciones.',prayer:'Que mi gratitud no se quede privada, sino que otros vean lo que tú has hecho.'},{ref:'Salmos 103:2',text:'Alaba, alma mía, al Señor, y no olvides ninguno de sus beneficios.',prayer:'Hoy hago un inventario de tus bondades. Son demasiadas para olvidarlas.'},{ref:'Salmos 116:12',text:'¿Cómo le pagaré al Señor por tanta bondad que me ha mostrado?',prayer:'No puedo pagarte, Señor. Solo puedo darte mi vida entera en gratitud.'},{ref:'Lucas 17:15-16',text:'Uno de ellos, al verse ya sano, regresó alabando a Dios a grandes voces.',prayer:'Que yo sea siempre el que regresa a darte gracias, Señor.'},{ref:'Apocalipsis 4:11',text:'Digno eres, Señor y Dios nuestro, de recibir la gloria, la honra y el poder.',prayer:'Hoy te doy la gloria, el honor y el poder que solo tú mereces.'},{ref:'Salmos 118:1',text:'Den gracias al Señor, porque él es bueno; su amor perdura para siempre.',prayer:'Tu bondad es lo que hace posible mi gratitud.'},{ref:'Colosenses 4:2',text:'Dedíquense a la oración: perseveren en ella con agradecimiento.',prayer:'Que la gratitud sea el ambiente en el que vivo, no solo un momento especial.'},{ref:'Salmos 69:30',text:'Alabaré el nombre de Dios con cánticos; lo exaltaré con himnos de gratitud.',prayer:'Hoy mi gratitud se convierte en canción para ti, Señor.'},{ref:'Daniel 2:23',text:'A ti, Dios de mis antepasados, te alabo y te doy gracias.',prayer:'Gracias por la herencia de fe que tengo y por todo lo que has hecho en mi historia.'},{ref:'Salmos 103:1',text:'Alaba, alma mía, al Señor; alabe todo mi ser su santo nombre.',prayer:'Que nunca dé por sentado lo que tú haces. Gracias por todo, siempre.'}],asustado:[{ref:'2 Timoteo 1:7',text:'Pues Dios no nos ha dado un espíritu de timidez, sino de poder, de amor y de dominio propio.',prayer:'Señor, reemplaza mi miedo con la valentía que solo tú puedes dar.'},{ref:'Josué 1:9',text:'Sé fuerte y valiente. No tengas miedo. El Señor tu Dios estará contigo dondequiera que vayas.',prayer:'Padre, que tu presencia sea más grande que cualquier cosa que me atemoriza.'},{ref:'Salmos 56:3',text:'Cuando siento miedo, pongo en ti mi confianza.',prayer:'En este momento de temor, decido confiar. Tú eres más grande que lo que temo.'},{ref:'Isaías 43:1',text:'No temas, que yo te he redimido; te he llamado por tu nombre; tú eres mío.',prayer:'Soy tuyo, Señor. Y si soy tuyo, no tengo nada que temer.'},{ref:'Salmos 91:4',text:'Con sus plumas te cubrirá, y bajo sus alas hallarás refugio.',prayer:'Escóndeme bajo tu protección hoy. Eres mi refugio seguro.'},{ref:'Isaías 41:10',text:'No temas, porque yo estoy contigo; no te angusties, porque yo soy tu Dios.',prayer:'Recibo hoy tu fortaleza. No tengo que enfrentar esto solo/a.'},{ref:'Salmos 27:1',text:'El Señor es mi luz y mi salvación; ¿a quién temeré?',prayer:'Tú eres mi luz en la oscuridad. Con eso es suficiente.'},{ref:'Romanos 8:15',text:'No recibieron un espíritu que de nuevo los esclavice al miedo, sino el Espíritu que los adopta como hijos.',prayer:'Soy hijo/a de Dios. El miedo no es mi identidad ni mi destino.'},{ref:'Deuteronomio 31:8',text:'El Señor mismo marchará al frente de ti y estará contigo; nunca te dejará ni te abandonará.',prayer:'Tú vas delante de mí, Señor. Lo que me espera ya lo has visto tú primero.'},{ref:'Salmos 34:4',text:'Busqué al Señor, y él me respondió; me libró de todos mis temores.',prayer:'Señor, te busco ahora mismo. Líbrame de este miedo que me paraliza.'},{ref:'Juan 14:27',text:'La paz les dejo; mi paz les doy. No se angustien ni se acobarden.',prayer:'Recibo tu paz hoy. No me acobardaré porque tú estás conmigo.'},{ref:'Salmos 46:2',text:'No temeremos, aunque se deshaga la tierra.',prayer:'Aunque todo parezca derrumbarse, puedo estar tranquilo/a porque tú eres inmovible.'},{ref:'Hebreos 13:6',text:'El Señor es quien me ayuda; no temeré.',prayer:'Tú eres mi ayuda. Eso es más poderoso que cualquier cosa que me asusta.'},{ref:'1 Juan 4:18',text:'El amor perfecto echa fuera el temor.',prayer:'Señor, que tu amor perfecto desplace todo temor de mi corazón.'},{ref:'Isaías 35:4',text:'Digan a los de corazón temeroso: Sean fuertes y no teman.',prayer:'Recibo esta palabra hoy. Soy fuerte en ti aunque no lo sienta todavía.'},{ref:'Miqueas 7:8',text:'Aunque caiga, me levantaré; aunque more en tinieblas, el Señor será mi luz.',prayer:'Aunque el miedo me haga caer, contigo siempre puedo levantarme.'},{ref:'Salmos 112:7',text:'No temerá recibir malas noticias; su corazón estará firme, confiado en el Señor.',prayer:'Afianza mi corazón en ti, Señor.'},{ref:'Números 14:9',text:'No les tengan miedo. El Señor está de nuestra parte.',prayer:'El Señor está de mi parte. Eso cambia todo.'},{ref:'Proverbios 3:25-26',text:'No temerás ningún desastre repentino, porque el Señor estará siempre a tu lado.',prayer:'Gracias porque no tengo que temerle al futuro. Tú ya estás ahí.'},{ref:'Salmos 3:6',text:'No me asustan los numerosos escuadrones que me acosan por doquier.',prayer:'No importa cuánto me rodee el miedo. Tú eres más grande que todo eso.'}],confundido:[{ref:'Proverbios 3:5-6',text:'Confía en el Señor de todo corazón, y no en tu propia inteligencia. Reconócelo en todos tus caminos, y él allanará tus sendas.',prayer:'Señor, no entiendo todo, pero confío en que tú sí. Guía mis pasos.'},{ref:'Santiago 1:5',text:'Si a alguno de ustedes le falta sabiduría, pídasela a Dios, y él se la dará generosamente.',prayer:'Padre, necesito tu sabiduría hoy. Ilumina mi mente y calma mi corazón.'},{ref:'Salmos 32:8',text:'El Señor dice: Yo te instruiré y te mostraré el camino que debes seguir.',prayer:'Habla, Señor. Tu voz es la brújula que mi alma necesita.'},{ref:'Isaías 30:21',text:'Ya sea que te desvíes a la derecha o a la izquierda, tus oídos percibirán una voz que te dirá: Este es el camino; síguelo.',prayer:'Ayúdame a quietarme lo suficiente para escuchar tu dirección.'},{ref:'Juan 16:13',text:'Cuando venga el Espíritu de la verdad, él los guiará a toda la verdad.',prayer:'Espíritu Santo, guíame. No confío en mi entendimiento, confío en ti.'},{ref:'Jeremías 29:11',text:'Porque yo sé los planes que tengo para ustedes, planes de bienestar y no de calamidad.',prayer:'Aunque no vea el camino, tú sí lo ves. Tus planes para mí son buenos.'},{ref:'Salmos 119:105',text:'Tu palabra es una lámpara a mis pies; es una luz en mi sendero.',prayer:'Ilumina el siguiente paso, Señor.'},{ref:'Proverbios 16:9',text:'El corazón del hombre traza su rumbo, pero sus pasos los dirige el Señor.',prayer:'Entrego mis planes a ti, Señor. Dirige tú mis pasos.'},{ref:'Salmos 25:4-5',text:'Señor, hazme conocer tus caminos; muéstrame tus sendas. Encamíname en tu verdad.',prayer:'Enséñame tu camino hoy, Señor. Quiero ir donde tú vayas.'},{ref:'Romanos 8:28',text:'Sabemos que Dios dispone todas las cosas para el bien de quienes lo aman.',prayer:'Aunque no entiendo cómo, creo que tú puedes ordenar este caos para mi bien.'},{ref:'1 Corintios 14:33',text:'Dios no es un Dios de desorden sino de paz.',prayer:'Señor, donde hay confusión en mí, trae tu orden y tu paz.'},{ref:'Salmos 73:24',text:'Me guías con tu consejo, y más tarde me acogerás en gloria.',prayer:'Confío en tu consejo, Señor. Aunque no entienda hoy, confío en el final.'},{ref:'Isaías 58:11',text:'El Señor te guiará siempre; te saciará en tierras resecas.',prayer:'Aunque este momento se siente como un desierto, tú me guías.'},{ref:'Habacuc 2:3',text:'Aunque la visión tardará aún por algún tiempo, pero al final hablará, y no mentirá.',prayer:'Señor, dame la paciencia de esperar tu respuesta aunque tarde.'},{ref:'Salmos 48:14',text:'Este Dios es nuestro Dios eterno; él nos guiará para siempre.',prayer:'Para siempre me guiarás. Eso incluye este momento confuso.'},{ref:'Filipenses 4:7',text:'La paz de Dios, que sobrepasa todo entendimiento, cuidará sus corazones y sus pensamientos.',prayer:'Señor, no entiendo, pero recibo tu paz que también está más allá del entendimiento.'},{ref:'Mateo 7:7',text:'Pidan, y se les dará; busquen, y encontrarán; llamen, y se les abrirá.',prayer:'Estoy pidiendo, buscando y llamando. Confío en que responderás.'},{ref:'Salmos 37:23',text:'El Señor afirma los pasos del hombre bueno y se deleita en su camino.',prayer:'Señor, afirma mis pasos hoy. Confío en que te deleitas en guiarme.'},{ref:'Isaías 42:16',text:'Guiaré a los ciegos por caminos desconocidos, los llevaré por senderos que no han frecuentado.',prayer:'Guíame por donde yo no conozco. Confío en tu mano en este camino nuevo.'},{ref:'Proverbios 11:14',text:'Donde no hay buen consejo, el pueblo cae, pero en la abundancia de consejeros está la victoria.',prayer:'Dame sabiduría para saber a quién escuchar y humildad para pedir ayuda.'}]};
 
-const votd = [
-  {text:'Todo lo puedo en Cristo que me fortalece.',ref:'Filipenses 4:13'},
-  {text:'El Señor es mi luz y mi salvación, ¿a quién temeré?',ref:'Salmos 27:1'},
-  {text:'Vengan a mí todos ustedes que están cansados, y yo les daré descanso.',ref:'Mateo 11:28'},
-  {text:'Porque yo sé los planes que tengo para ustedes, planes de bienestar y no de calamidad.',ref:'Jeremías 29:11'},
-  {text:'Nada nos puede separar del amor de Dios.',ref:'Romanos 8:38'},
-  {text:'El Señor mismo irá delante de ti; él estará contigo.',ref:'Deuteronomio 31:8'},
-  {text:'Sean fuertes y valientes. No tengan miedo.',ref:'Josué 1:9'},
-  {text:'Encomienda al Señor tu camino; confía en él, y él actuará.',ref:'Salmos 37:5'},
-  {text:'El Señor está cerca de todos los que lo invocan.',ref:'Salmos 145:18'},
-  {text:'Dios es nuestro amparo y nuestra fortaleza, nuestra ayuda segura en momentos de angustia.',ref:'Salmos 46:1'},
-  {text:'Confía en el Señor de todo corazón, y no en tu propia inteligencia.',ref:'Proverbios 3:5'},
-  {text:'Busquen primeramente el reino de Dios y su justicia, y todas estas cosas les serán añadidas.',ref:'Mateo 6:33'},
-  {text:'El amor es paciente, es bondadoso. El amor no tiene envidia.',ref:'1 Corintios 13:4'},
-  {text:'Sean fuertes y cobren ánimo, todos los que en el Señor esperan.',ref:'Salmos 31:24'},
-];
+const votd=[{text:'Todo lo puedo en Cristo que me fortalece.',ref:'Filipenses 4:13'},{text:'El Señor es mi luz y mi salvación, ¿a quién temeré?',ref:'Salmos 27:1'},{text:'Vengan a mí todos ustedes que están cansados, y yo les daré descanso.',ref:'Mateo 11:28'},{text:'Porque yo sé los planes que tengo para ustedes, planes de bienestar y no de calamidad.',ref:'Jeremías 29:11'},{text:'Nada nos puede separar del amor de Dios.',ref:'Romanos 8:38'},{text:'El Señor mismo irá delante de ti; él estará contigo.',ref:'Deuteronomio 31:8'},{text:'Sean fuertes y valientes. No tengan miedo.',ref:'Josué 1:9'},{text:'Encomienda al Señor tu camino; confía en él, y él actuará.',ref:'Salmos 37:5'},{text:'El Señor está cerca de todos los que lo invocan.',ref:'Salmos 145:18'},{text:'Dios es nuestro amparo y nuestra fortaleza, nuestra ayuda segura en momentos de angustia.',ref:'Salmos 46:1'},{text:'Confía en el Señor de todo corazón, y no en tu propia inteligencia.',ref:'Proverbios 3:5'},{text:'Busquen primeramente el reino de Dios y su justicia.',ref:'Mateo 6:33'},{text:'El amor es paciente, es bondadoso.',ref:'1 Corintios 13:4'},{text:'Sean fuertes y cobren ánimo, todos los que en el Señor esperan.',ref:'Salmos 31:24'}];
 
-const colors  = {feliz:'#E8B800',triste:'#2979C8',ansioso:'#9C2BD4',solo:'#1A8A5C',enojado:'#CC2200',agradecido:'#2A9D4E',asustado:'#D06000',confundido:'#555555'};
-const emojis  = {feliz:'☀️',triste:'🌧️',ansioso:'🌀',solo:'🌙',enojado:'🔥',agradecido:'🌿',asustado:'⚡',confundido:'🌫️'};
-const labels  = {feliz:'Feliz',triste:'Triste',ansioso:'Ansioso / a',solo:'Solo / a',enojado:'Enojado / a',agradecido:'Agradecido / a',asustado:'Con miedo',confundido:'Confundido / a'};
+const colors={feliz:'#E8B800',triste:'#2979C8',ansioso:'#9C2BD4',solo:'#1A8A5C',enojado:'#CC2200',agradecido:'#2A9D4E',asustado:'#D06000',confundido:'#555'};
+const emojis={feliz:'☀️',triste:'🌧️',ansioso:'🌀',solo:'🌙',enojado:'🔥',agradecido:'🌿',asustado:'⚡',confundido:'🌫️'};
+const labels={feliz:'Feliz',triste:'Triste',ansioso:'Ansioso / a',solo:'Solo / a',enojado:'Enojado / a',agradecido:'Agradecido / a',asustado:'Con miedo',confundido:'Confundido / a'};
 
-let currentFeeling = null;
-let currentIdx = 0;
+let currentFeeling=null,currentIdx=0;
 
-function init() {
-  const i = new Date().getDate() % votd.length;
-  document.getElementById('votd-text').textContent = votd[i].text;
-  document.getElementById('votd-ref').textContent  = '— ' + votd[i].ref;
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+
+function init(){
+  const d=new Date().getDate();
+  document.getElementById('votd-text').textContent=votd[d%votd.length].text;
+  document.getElementById('votd-ref').textContent='— '+votd[d%votd.length].ref;
+  const name=localStorage.getItem('leeme_nombre');
+  if(name){
+    document.getElementById('returning-name').textContent=name;
+    document.getElementById('home-greeting').textContent='Bienvenido/a, '+name;
+    showScreen('returning-screen');
+  } else {
+    showScreen('welcome-screen');
+  }
 }
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
+function saveName(){
+  const v=document.getElementById('name-input').value.trim();
+  if(!v)return;
+  localStorage.setItem('leeme_nombre',v);
+  document.getElementById('home-greeting').textContent='Bienvenido/a, '+v;
+  showScreen('home-screen');
 }
 
-function openFeeling(f) {
-  currentFeeling = f;
-  currentIdx = Math.floor(Math.random() * verses[f].length);
+document.getElementById('name-input').addEventListener('keydown',e=>{if(e.key==='Enter')saveName();});
+
+function goHome(){showScreen('home-screen');}
+
+function openFeeling(f){
+  currentFeeling=f;
+  currentIdx=Math.floor(Math.random()*verses[f].length);
   renderVerse();
   showScreen('verse-screen');
 }
 
-function renderVerse() {
-  const v = verses[currentFeeling][currentIdx];
-  const c = colors[currentFeeling];
-  document.getElementById('color-accent-bar').style.background    = c;
-  document.getElementById('verse-feeling-label').textContent       = labels[currentFeeling];
-  document.getElementById('verse-emoji').textContent               = emojis[currentFeeling];
-  document.getElementById('verse-accent-line').style.background    = c;
-  document.getElementById('verse-text').textContent                = v.text;
-  document.getElementById('verse-ref').textContent                 = '— ' + v.ref;
-  document.getElementById('prayer-text').textContent               = v.prayer;
+function renderVerse(){
+  const v=verses[currentFeeling][currentIdx];
+  const c=colors[currentFeeling];
+  document.getElementById('color-accent-bar').style.background=c;
+  document.getElementById('verse-feeling-label').textContent=labels[currentFeeling];
+  document.getElementById('verse-emoji').textContent=emojis[currentFeeling];
+  document.getElementById('verse-accent-line').style.background=c;
+  document.getElementById('verse-text').textContent=v.text;
+  document.getElementById('verse-ref').textContent='— '+v.ref;
+  document.getElementById('prayer-text').textContent=v.prayer;
 }
 
-function nextVerse() {
-  const list = verses[currentFeeling];
+function nextVerse(){
+  const list=verses[currentFeeling];
   let next;
-  do { next = Math.floor(Math.random() * list.length); } while (next === currentIdx && list.length > 1);
-  currentIdx = next;
+  do{next=Math.floor(Math.random()*list.length);}while(next===currentIdx&&list.length>1);
+  currentIdx=next;
   renderVerse();
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
-function goBack() { showScreen('home-screen'); }
+function goBack(){showScreen('home-screen');}
 
-// Service Worker registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
-  });
-}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}
 
 init();
 </script>
