@@ -1,4 +1,4 @@
-const CACHE_NAME = 'leeme-cuando-v1';
+const CACHE_NAME = 'leeme-cuando-v2';
 const ASSETS = [
   '/',
   '/index.html',
